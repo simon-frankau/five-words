@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
+// Only allow words of 5 letters, a-z, no repeats.
 fn is_candidate_word(w: &str) -> bool {
     let bytes = w.as_bytes();
     if bytes.len() != 5 {
@@ -43,7 +44,8 @@ fn build_word_list<'a>(ws: Vec<String>) -> HashMap<u32, Vec<String>> {
 }
 
 // Given a bitmask of used letters and a range of masks representing
-// words, fill in a vector with those masks that are compatible.
+// words, clear and fill in a vector with those masks that are
+// compatible.
 fn candidates(used: u32, candidates: &[u32], output: &mut Vec<u32>) {
     output.clear();
     for candidate in candidates.iter() {
@@ -53,7 +55,9 @@ fn candidates(used: u32, candidates: &[u32], output: &mut Vec<u32>) {
     }
 }
 
+// Find all combinations of 5 words that don't repeat a letter.
 fn solve(words: &[u32]) -> Vec<[u32; 5]> {
+    // Cheesily avoid any allocation.
     let mut words2 = Vec::with_capacity(words.len());
     let mut words3 = Vec::with_capacity(words.len());
     let mut words4 = Vec::with_capacity(words.len());
