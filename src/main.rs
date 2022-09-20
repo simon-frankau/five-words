@@ -33,11 +33,11 @@ fn to_bitmask(w: &str) -> u32 {
 }
 
 // Build a list of bitmasks, with the words associated with each mask.
-fn build_word_list<'a>(ws: Vec<String>) -> HashMap<u32, Vec<String>> {
+fn build_word_list(ws: Vec<String>) -> HashMap<u32, Vec<String>> {
     let mut map = HashMap::new();
     for w in ws.into_iter() {
 	let mask = to_bitmask(&w);
-	let entry = map.entry(mask).or_insert_with(|| Vec::new());
+	let entry = map.entry(mask).or_insert_with(Vec::new);
 	entry.push(w);
     }
     map
